@@ -231,18 +231,18 @@ end
 
 
 # experimental stuff
-using QHull
-function hull(star_epoch_geom)
-println("Computing convex hull");
-ch = chull(hcat(vec(star_epoch_geom.projx),vec(star_epoch_geom.projy)))
-hull=[ch.vertices;ch.vertices[1]]; #convex hull, closed
-scatter(ch.points[:,1], ch.points[:,2])
-plot(ch.points[hull,1], ch.points[hull,2])
+#using QHull
+#function hull(star_epoch_geom)
+#println("Computing convex hull");
+#ch = chull(hcat(vec(star_epoch_geom.projx),vec(star_epoch_geom.projy)))
+#hull=[ch.vertices;ch.vertices[1]]; #convex hull, closed
+#scatter(ch.points[:,1], ch.points[:,2])
+#plot(ch.points[hull,1], ch.points[hull,2])
 
-bounding_box = [minimum(star_epoch_geom.projx), minimum(star_epoch_geom.projy), maximum(star_epoch_geom.projx), maximum(star_epoch_geom.projy)]
+#bounding_box = [minimum(star_epoch_geom.projx), minimum(star_epoch_geom.projy), maximum(star_epoch_geom.projx), maximum(star_epoch_geom.projy)]
 
 
-end
+#end
 
 
 
