@@ -1,8 +1,12 @@
 #
 # Light curve inversion from phase data with absolute flux - Movie version
 #
-using ROTIR
-lcifile = "./data/kplr005110407_LC_CBV_Q02.txt"
+#using ROTIR
+include("./src/ROTIR.jl");
+using Main.ROTIR
+using Statistics
+
+lcifile = "./demos/data/kplr005110407_LC_CBV_Q02.txt"
 lcidata = read_lci_absolute(lcifile);
 
 # Period of rotation
@@ -38,7 +42,7 @@ polyflux, visible_pixels, hidden_pixels = setup_lci(epochs_geometry);
 nframes, Y, E, W, H = split_lcidata_by_period(lcidata,polyflux, 0.5*period); # we use half period, but any reasonable number should work
 
 # Setup Harmon & Total Variation regularization
-C, ∇s, ∇w = setup_regularization_matrices(epochs_geometry);
+C, ∇s, ∇w = setup_regularization_matrices(epochs_geometry);  #CALEB: <---- THESE ARE IMPORTANT FOR GETTING ADMM
 
 # Reconstruction
 Tphot_wanted = 5200;
@@ -62,6 +66,10 @@ x = rescale_temperature(x, Tphot_wanted, visible_pixels);
 # Export movie as mollweide plot then mp4
 vmin = minimum(x[visible_pixels,:]);
 vmax = maximum(x[visible_pixels,:]);
+
+
+#CALEB: FIX CODE FROM HERE DOWN.  DOUBLE CHECK WORKING!
+
 for i=1:nframes
     x[hidden_pixels,i] .= median(x[visible_pixels,i]);
     mollplot_temperature_healpix(x[:,i], visible_pixels = visible_pixels, vmin = vmin, vmax = vmax);
