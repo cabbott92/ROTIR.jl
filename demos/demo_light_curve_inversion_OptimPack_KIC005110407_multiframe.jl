@@ -69,12 +69,14 @@ vmax = maximum(x[visible_pixels,:]);
 
 
 #CALEB: FIX CODE FROM HERE DOWN.  DOUBLE CHECK WORKING!
-
+println(nframes)
 for i=1:nframes
     x[hidden_pixels,i] .= median(x[visible_pixels,i]);
     mollplot_temperature_healpix(x[:,i], visible_pixels = visible_pixels, vmin = vmin, vmax = vmax);
+    println(i)
+    readline()
     #readline(stdin)
-    savefig("lci$i");
+    #savefig("lci$i");
 end
 run(`ffmpeg -f image2 -pattern_type glob -framerate 5 -i 'lci%d.png' lci_all.mp4`)
 run(`ls -1v *.png | xargs -I {} echo "file '{}'" > list.txt')
